@@ -23,6 +23,9 @@
     "monolog/monolog": "^1.21.0",
     "linecorp/line-bot-sdk": "3.3.0"
   },
+  "require-dev": {
+      "heroku/heroku-buildpack-php": "*"
+  },
   "autoload": {
     "psr-4": {
       "LINE\\": "src/"

@@ -139,5 +139,9 @@ class Route
             $res->write('OK');
             return $res;
         });
+        $app->get('/', function (\Slim\Http\Request $req, \Slim\Http\Response $res) {
+            $res->write('HELLO');
+            return $res;
+        });
     }
 }

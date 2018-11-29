@@ -76,6 +76,7 @@ class ImageMessageHandler implements EventHandler
         $url = UrlBuilder::buildUrl($this->req, ['static', 'tmpdir', $filename]);
         $this->logger->info('==url==');
         $this->logger->info($url);
+        $url = "https://seo.carro.co/banners/Banner.jpg";
         // NOTE: You should pass the url of small image to `previewImageUrl`.
         // This sample doesn't treat that.
         $this->bot->replyMessage($replyToken, new ImageMessageBuilder($url, $url));

@@ -55,7 +55,7 @@ class ImageMessageHandler implements EventHandler
         $contentId = $this->imageMessage->getMessageId();
         $image = $this->bot->getMessageContent($contentId)->getRawBody();
         $this->logger->info("==image content===");
-        $this->logger->info($image);
+        // $this->logger->info($image);
         $tempFilePath = tempnam($_SERVER['DOCUMENT_ROOT'] . '/static/tmpdir', 'image-');
         $this->logger->info('==tempFilePath==');
         $this->logger->info($tempFilePath);

@@ -67,6 +67,10 @@ class ImageMessageHandler implements EventHandler
         fwrite($fh, $image);
         fclose($fh);
 
+        $testFile = fopen("testFile.txt", 'w');
+        fwrite($testFile, "hello");
+        fclose($testFile);
+
         $replyToken = $this->imageMessage->getReplyToken();
 
         $url = UrlBuilder::buildUrl($this->req, ['static', 'tmpdir', $filename]);

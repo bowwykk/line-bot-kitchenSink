@@ -38,10 +38,10 @@ class ImageMessageHandler implements EventHandler
     /** @var ImageMessage $imageMessage */
     private $imageMessage;
 
-    private $s3Bucket = "towkay-th";
-    private $s3Key = "AKIAIUGX5MJLTSFH43EQ";
-    private $s3Secret = "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";
-    private $s3Region = "ap-southeast-1";
+    private $s3Bucket = "";
+    private $s3Key = "";
+    private $s3Secret = "";
+    private $s3Region = "";
 
     /**
      * ImageMessageHandler constructor.

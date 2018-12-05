@@ -222,11 +222,13 @@ class TextMessageHandler implements EventHandler
                 $imageUrl = UrlBuilder::buildUrl($this->req, ['static', 'buttons', '1040.jpg']);
                 $this->logger->info("imageUrl $imageUrl");
                 $buttonTemplateBuilder = new ButtonTemplateBuilder(
-                    'button text',
-                    'description',
-                    $imageUrl,
+                    'button title',
+                    'button button',
+                    'https://example.com/thumbnail.jpg',
                     [
-                        new MessageTemplateActionBuilder('Say message', 'hello hello'),
+                        new PostbackTemplateActionBuilder('postback label', 'post=back'),
+                        new MessageTemplateActionBuilder('message label', 'test message'),
+                        new UriTemplateActionBuilder('uri label', 'https://example.com'),
                     ]
                 );
                 $this->logger->info("=buttonTemplateBuilder=");

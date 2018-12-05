@@ -86,6 +86,7 @@ class ImageMessageHandler implements EventHandler
 
         $userId = $this->imageMessage->getUserId();
         $contentId = $this->imageMessage->getMessageId();
+        $this->logger->info("==userId==". $userId);
         $response = $this->bot->getMessageContent($contentId);
         if ($response->isSucceeded()) {
             $this->logger->info("==isSucceeded==");
@@ -111,7 +112,7 @@ class ImageMessageHandler implements EventHandler
             }
             $this->logger->info("==fileNameSave== ". $fileNameSave);
             $botDataFolder = 'botdata/'; // โฟลเดอร์หลักที่จะบันทึกไฟล์
-            $botDataUserFolder = $botDataFolder.$userID; // มีโฟลเดอร์ด้านในเป็น userId อีกขั้น
+            $botDataUserFolder = $botDataFolder.$userId; // มีโฟลเดอร์ด้านในเป็น userId อีกขั้น
             if(!file_exists($botDataUserFolder)) { // ตรวจสอบถ้ายังไม่มีให้สร้างโฟลเดอร์ userId
                 mkdir($botDataUserFolder, 0777, true);
             }   

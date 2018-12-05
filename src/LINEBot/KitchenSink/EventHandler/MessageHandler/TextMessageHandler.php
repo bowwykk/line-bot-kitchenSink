@@ -219,12 +219,10 @@ class TextMessageHandler implements EventHandler
                 // );
                 // break;
                 $this->logger->info("create auction");
-                $imageUrl = UrlBuilder::buildUrl($this->req, ['static', 'buttons', '1040.jpg']);
-                $this->logger->info("imageUrl $imageUrl");
                 $buttonTemplateBuilder = new ButtonTemplateBuilder(
                     'button title',
                     'button button',
-                    $imageUrl,
+                    null,
                     [
                         new PostbackTemplateActionBuilder('postback label', 'post=back'),
                         new MessageTemplateActionBuilder('message label', 'test message'),

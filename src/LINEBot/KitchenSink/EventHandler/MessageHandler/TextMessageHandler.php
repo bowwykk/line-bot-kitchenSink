@@ -205,15 +205,26 @@ class TextMessageHandler implements EventHandler
                 $this->bot->replyMessage($replyToken, $messageTemplate);
                 break;
             case 'create auction':
+                // $this->bot->replyMessage(
+                //     $replyToken,
+                //     new TemplateMessageBuilder(
+                //         'Choose make',
+                //         new ConfirmTemplateBuilder('Choose make?', [
+                //             new PostbackTemplateActionBuilder('TOYOTA', 'make=toyota', 'toyota'),
+                //             new PostbackTemplateActionBuilder('HONDA', 'make=honda', 'honda'),
+                //             new PostbackTemplateActionBuilder('ISUZU', 'make=isuzu', 'isuzu'),
+                //             new PostbackTemplateActionBuilder('BENZ', 'make=benz', 'benz'),
+                //         ])
+                //     )
+                // );
+                // break;
                 $this->bot->replyMessage(
                     $replyToken,
                     new TemplateMessageBuilder(
-                        'Choose make',
-                        new ConfirmTemplateBuilder('Choose make?', [
-                            new PostbackTemplateActionBuilder('TOYOTA', 'make=toyota', 'toyota'),
-                            new PostbackTemplateActionBuilder('HONDA', 'make=honda', 'honda'),
-                            new PostbackTemplateActionBuilder('ISUZU', 'make=isuzu', 'isuzu'),
-                            new PostbackTemplateActionBuilder('BENZ', 'make=benz', 'benz'),
+                        'Confirm alt text',
+                        new ConfirmTemplateBuilder('Do it?', [
+                            new MessageTemplateActionBuilder('Yes', 'Yes!'),
+                            new MessageTemplateActionBuilder('No', 'No!'),
                         ])
                     )
                 );

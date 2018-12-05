@@ -88,6 +88,7 @@ class ImageMessageHandler implements EventHandler
         $contentId = $this->imageMessage->getMessageId();
         $response = $bot->getMessageContent($contentId);
         if ($response->isSucceeded()) {
+            $this->logger->info("==isSucceeded==");
             // คำสั่ง getRawBody() ในกรณีนี้ จะได้ข้อมูลส่งกลับมาเป็น binary 
             // เราสามารถเอาข้อมูลไปบันทึกเป็นไฟล์ได้
             $dataBinary = $response->getRawBody(); // return binary
@@ -108,6 +109,7 @@ class ImageMessageHandler implements EventHandler
                     $fileNameSave = time().".".$ext;                                
                     break;                                                      
             }
+            $this->logger->info("==fileNameSave== ". $fileNameSave);
             $botDataFolder = 'botdata/'; // โฟลเดอร์หลักที่จะบันทึกไฟล์
             $botDataUserFolder = $botDataFolder.$userID; // มีโฟลเดอร์ด้านในเป็น userId อีกขั้น
             if(!file_exists($botDataUserFolder)) { // ตรวจสอบถ้ายังไม่มีให้สร้างโฟลเดอร์ userId
@@ -115,6 +117,7 @@ class ImageMessageHandler implements EventHandler
             }   
             // กำหนด path ของไฟล์ที่จะบันทึก
             $fileFullSavePath = $botDataUserFolder.'/'.$fileNameSave;
+            $this->logger->info("==fileFullSavePath== ". $fileFullSavePath);
             file_put_contents($fileFullSavePath,$dataBinary); // ทำการบันทึกไฟล์
             $textReplyMessage = "save success $fileNameSave";
             $replyData = new TextMessageBuilder($textReplyMessage);

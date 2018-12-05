@@ -56,7 +56,7 @@ class PostbackEventHandler implements EventHandler
         $this->logger->info('Got postback ' . $this->postbackEvent->getPostbackData());
         $data = $this->postbackEvent->getPostbackData();
         switch ($data) {
-            case strpos($data, 'model'):
+            case strpos($data, 'model') !== false:
                 $this->logger->info("==model==");
                 $userId = $this->textMessage->getUserId();
                 $response = $this->bot->getProfile($userId);
@@ -69,7 +69,7 @@ class PostbackEventHandler implements EventHandler
                     "Please send car's image"
                 );
                 break;
-            case strpos($data, 'make'):
+            case strpos($data, 'make') !== false:
                 $this->logger->info("==make==");
                 $buttonTemplateBuilder = new ButtonTemplateBuilder(
                     'Model',

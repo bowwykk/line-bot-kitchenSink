@@ -221,10 +221,11 @@ class TextMessageHandler implements EventHandler
                 $this->bot->replyMessage(
                     $replyToken,
                     new TemplateMessageBuilder(
-                        'Confirm alt text',
-                        new ConfirmTemplateBuilder('Do it?', [
+                        'Choose make',
+                        new ConfirmTemplateBuilder('Choose make?', [
                             new MessageTemplateActionBuilder('Yes', 'Yes!'),
                             new MessageTemplateActionBuilder('No', 'No!'),
+                            new MessageTemplateActionBuilder('Ok', 'Ok!'),
                         ])
                     )
                 );

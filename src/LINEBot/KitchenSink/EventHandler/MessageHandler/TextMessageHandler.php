@@ -204,6 +204,20 @@ class TextMessageHandler implements EventHandler
                 $messageTemplate = new TextMessageBuilder('Text with quickReply buttons', $quickReply);
                 $this->bot->replyMessage($replyToken, $messageTemplate);
                 break;
+            case 'create auction':
+                $this->bot->replyMessage(
+                    $replyToken,
+                    new TemplateMessageBuilder(
+                        'Choose make',
+                        new ConfirmTemplateBuilder('Choose make?', [
+                            new PostbackTemplateActionBuilder('TOYOTA', 'make=toyota', 'toyota'),
+                            new PostbackTemplateActionBuilder('HONDA', 'make=honda', 'honda'),
+                            new PostbackTemplateActionBuilder('ISUZU', 'make=isuzu', 'isuzu'),
+                            new PostbackTemplateActionBuilder('BENZ', 'make=benz', 'benz'),
+                        ])
+                    )
+                );
+                break;
             default:
                 $this->echoBack($replyToken, $text);
                 break;

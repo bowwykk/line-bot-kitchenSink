@@ -56,7 +56,7 @@ class PostbackEventHandler implements EventHandler
         $this->logger->info(print_r($this->postbackEvent,true));
         $data = $this->postbackEvent->getPostbackData();
         switch ($data) {
-            case strpos($data, 'model'):
+            case strpos($data, 'make'):
                 $buttonTemplateBuilder = new ButtonTemplateBuilder(
                     'Model',
                     'Choose your model..',

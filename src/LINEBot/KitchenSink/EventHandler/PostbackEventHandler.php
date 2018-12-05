@@ -53,9 +53,21 @@ class PostbackEventHandler implements EventHandler
      */
     public function handle()
     {
-        $this->logger->info(print_r($this->postbackEvent,true));
+        $this->logger->info('Got postback ' . $this->postbackEvent->getPostbackData());
         $data = $this->postbackEvent->getPostbackData();
         switch ($data) {
+            case strpos($data, 'model'):
+                $userId = $this->textMessage->getUserId();
+                $response = $this->bot->getProfile($userId);
+
+                $profile = $response->getJSONDecodedBody();
+                $this->bot->replyText(
+                    $this->postbackEvent->getReplyToken(),
+                    "Your name: " . $profile['displayName'],
+                    "Got postback: " . $this->postbackEvent->getPostbackData(),
+                    "Please send car's image"
+                );
+                break;
             case strpos($data, 'make'):
                 $this->logger->info("==make==");
                 $buttonTemplateBuilder = new ButtonTemplateBuilder(
@@ -63,10 +75,10 @@ class PostbackEventHandler implements EventHandler
                     'Choose your model..',
                     null,
                     [
-                        new PostbackTemplateActionBuilder('one', $data . 'model=1', '1'),
-                        new PostbackTemplateActionBuilder('two', $data . 'model=2', '2'),
-                        new PostbackTemplateActionBuilder('three', $data . 'model=3', '3'),
-                        new PostbackTemplateActionBuilder('four', $data . 'model=4', '4'),
+                        new PostbackTemplateActionBuilder('one', $data . '&model=1', '1'),
+                        new PostbackTemplateActionBuilder('two', $data . '&model=2', '2'),
+                        new PostbackTemplateActionBuilder('three', $data . '&model=3', '3'),
+                        new PostbackTemplateActionBuilder('four', $data . '&model=4', '4'),
                     ]
                 );
                 $templateMessage = new TemplateMessageBuilder('Button alt text', $buttonTemplateBuilder);

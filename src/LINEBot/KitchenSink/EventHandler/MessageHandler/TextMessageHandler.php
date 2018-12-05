@@ -220,13 +220,14 @@ class TextMessageHandler implements EventHandler
                 // break;
                 $this->logger->info("create auction");
                 $buttonTemplateBuilder = new ButtonTemplateBuilder(
-                    'button title',
-                    'button button',
+                    'Choose your make',
+                    null,
                     null,
                     [
-                        new PostbackTemplateActionBuilder('postback label', 'post=back'),
-                        new MessageTemplateActionBuilder('message label', 'test message'),
-                        new UriTemplateActionBuilder('uri label', 'https://example.com'),
+                        new PostbackTemplateActionBuilder('TOYOTA', 'make=toyota', 'toyota'),
+                        new PostbackTemplateActionBuilder('HONDA', 'make=honda', 'honda'),
+                        new PostbackTemplateActionBuilder('ISUZU', 'make=isuzu', 'isuzu'),
+                        new PostbackTemplateActionBuilder('BENZ', 'make=benz', 'benz'),
                     ]
                 );
                 $this->logger->info("=buttonTemplateBuilder=");

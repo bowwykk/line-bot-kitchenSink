@@ -219,15 +219,15 @@ class TextMessageHandler implements EventHandler
                 // );
                 // break;
                 $imageUrl = UrlBuilder::buildUrl($this->req, ['static', 'buttons', '1040.jpg']);
-                $carouselTemplateBuilder = new CarouselTemplateBuilder([
-                    new CarouselColumnTemplateBuilder('Choose make', 'Choose make?', $imageUrl, [
-                            new PostbackTemplateActionBuilder('TOYOTA', 'make=toyota', 'toyota'),
-                            new PostbackTemplateActionBuilder('HONDA', 'make=honda', 'honda'),
-                            new PostbackTemplateActionBuilder('ISUZU', 'make=isuzu', 'isuzu'),
-                            new PostbackTemplateActionBuilder('BENZ', 'make=benz', 'benz'),
-                    ]),
-                ]);
-                $templateMessage = new TemplateMessageBuilder('Choose make??', $carouselTemplateBuilder);
+                $buttonTemplateBuilder = new ButtonTemplateBuilder(
+                    'button text',
+                    'description',
+                    $imageUrl,
+                    [
+                        new MessageTemplateActionBuilder('Say message', 'hello hello'),
+                    ]
+                );
+                $templateMessage = new TemplateMessageBuilder('Button alt text', $buttonTemplateBuilder);
                 $this->bot->replyMessage($replyToken, $templateMessage);
                 break;
             default:

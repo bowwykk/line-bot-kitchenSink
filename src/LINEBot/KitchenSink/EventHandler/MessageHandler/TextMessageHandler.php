@@ -218,7 +218,9 @@ class TextMessageHandler implements EventHandler
                 //     )
                 // );
                 // break;
+                $this->logger->info("create auction");
                 $imageUrl = UrlBuilder::buildUrl($this->req, ['static', 'buttons', '1040.jpg']);
+                $this->logger->info("imageUrl $imageUrl");
                 $buttonTemplateBuilder = new ButtonTemplateBuilder(
                     'button text',
                     'description',
@@ -227,7 +229,9 @@ class TextMessageHandler implements EventHandler
                         new MessageTemplateActionBuilder('Say message', 'hello hello'),
                     ]
                 );
+                $this->logger->info("=buttonTemplateBuilder=");
                 $templateMessage = new TemplateMessageBuilder('Button alt text', $buttonTemplateBuilder);
+                $this->logger->info("=templateMessage=");
                 $this->bot->replyMessage($replyToken, $templateMessage);
                 break;
             default:

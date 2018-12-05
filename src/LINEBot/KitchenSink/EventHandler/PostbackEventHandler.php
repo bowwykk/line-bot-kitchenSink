@@ -22,6 +22,10 @@ use LINE\LINEBot;
 use LINE\LINEBot\Event\PostbackEvent;
 use LINE\LINEBot\KitchenSink\EventHandler;
 
+use LINE\LINEBot\MessageBuilder\TemplateBuilder\ButtonTemplateBuilder;
+use LINE\LINEBot\TemplateActionBuilder\PostbackTemplateActionBuilder;
+use LINE\LINEBot\MessageBuilder\TemplateMessageBuilder;
+
 class PostbackEventHandler implements EventHandler
 {
     /** @var LINEBot $bot */
@@ -50,9 +54,30 @@ class PostbackEventHandler implements EventHandler
     public function handle()
     {
         $this->logger->info(print_r($this->postbackEvent,true));
-        $this->bot->replyText(
-            $this->postbackEvent->getReplyToken(),
-            'Got postback ' . $this->postbackEvent->getPostbackData()
-        );
+        $data = $this->postbackEvent->getPostbackData();
+        switch ($data) {
+            case strpos($data, 'model'):
+                $buttonTemplateBuilder = new ButtonTemplateBuilder(
+                    'Model',
+                    'Choose your model..',
+                    null,
+                    [
+                        new PostbackTemplateActionBuilder('one', $data . 'model=1', '1'),
+                        new PostbackTemplateActionBuilder('two', $data . 'model=2', '2'),
+                        new PostbackTemplateActionBuilder('three', $data . 'model=3', '3'),
+                        new PostbackTemplateActionBuilder('four', $data . 'model=4', '4'),
+                    ]
+                );
+                $templateMessage = new TemplateMessageBuilder('Button alt text', $buttonTemplateBuilder);
+                $this->bot->replyMessage($replyToken, $templateMessage);
+                break;
+            default:
+                $this->bot->replyText(
+                    $this->postbackEvent->getReplyToken(),
+                    'Got postback ' . $this->postbackEvent->getPostbackData()
+                );
+                break;
+        }
+        
     }
 }

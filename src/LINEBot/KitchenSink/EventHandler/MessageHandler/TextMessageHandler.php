@@ -205,23 +205,9 @@ class TextMessageHandler implements EventHandler
                 $this->bot->replyMessage($replyToken, $messageTemplate);
                 break;
             case 'create auction':
-                // $this->bot->replyMessage(
-                //     $replyToken,
-                //     new TemplateMessageBuilder(
-                //         'Choose make',
-                //         new ConfirmTemplateBuilder('Choose make?', [
-                //             new PostbackTemplateActionBuilder('TOYOTA', 'make=toyota', 'toyota'),
-                //             new PostbackTemplateActionBuilder('HONDA', 'make=honda', 'honda'),
-                //             new PostbackTemplateActionBuilder('ISUZU', 'make=isuzu', 'isuzu'),
-                //             new PostbackTemplateActionBuilder('BENZ', 'make=benz', 'benz'),
-                //         ])
-                //     )
-                // );
-                // break;
-                $this->logger->info("create auction");
                 $buttonTemplateBuilder = new ButtonTemplateBuilder(
-                    'button title',
-                    'button button',
+                    'Make',
+                    'Choose your make..',
                     null,
                     [
                         new PostbackTemplateActionBuilder('TOYOTA', 'make=toyota', 'toyota'),
@@ -230,7 +216,6 @@ class TextMessageHandler implements EventHandler
                         new PostbackTemplateActionBuilder('BENZ', 'make=benz', 'benz'),
                     ]
                 );
-                $this->logger->info("=buttonTemplateBuilder=");
                 $templateMessage = new TemplateMessageBuilder('Button alt text', $buttonTemplateBuilder);
                 $this->logger->info("=templateMessage=");
                 $this->bot->replyMessage($replyToken, $templateMessage);

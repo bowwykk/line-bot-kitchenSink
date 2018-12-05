@@ -49,6 +49,7 @@ class PostbackEventHandler implements EventHandler
      */
     public function handle()
     {
+        $this->logger->info(print_r($this->postbackEvent,true));
         $this->bot->replyText(
             $this->postbackEvent->getReplyToken(),
             'Got postback ' . $this->postbackEvent->getPostbackData()

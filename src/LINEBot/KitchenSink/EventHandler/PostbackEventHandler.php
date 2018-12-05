@@ -57,6 +57,7 @@ class PostbackEventHandler implements EventHandler
         $data = $this->postbackEvent->getPostbackData();
         switch ($data) {
             case strpos($data, 'make'):
+                $this->logger->info("==make==");
                 $buttonTemplateBuilder = new ButtonTemplateBuilder(
                     'Model',
                     'Choose your model..',
@@ -69,7 +70,9 @@ class PostbackEventHandler implements EventHandler
                     ]
                 );
                 $templateMessage = new TemplateMessageBuilder('Button alt text', $buttonTemplateBuilder);
-                $this->bot->replyMessage($replyToken, $templateMessage);
+                $this->bot->replyMessage(
+                    $this->postbackEvent->getReplyToken(), $templateMessage
+                );
                 break;
             default:
                 $this->bot->replyText(

@@ -58,7 +58,7 @@ class PostbackEventHandler implements EventHandler
         switch ($data) {
             case strpos($data, 'model') !== false:
                 $this->logger->info("==model==");
-                $userId = $this->textMessage->getUserId();
+                $userId = $this->postbackEvent->getUserId();
                 $response = $this->bot->getProfile($userId);
 
                 $profile = $response->getJSONDecodedBody();

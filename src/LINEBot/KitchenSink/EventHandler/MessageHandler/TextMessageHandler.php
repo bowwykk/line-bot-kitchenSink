@@ -224,7 +224,7 @@ class TextMessageHandler implements EventHandler
                 $buttonTemplateBuilder = new ButtonTemplateBuilder(
                     'button title',
                     'button button',
-                    'https://example.com/thumbnail.jpg',
+                    $imageUrl,
                     [
                         new PostbackTemplateActionBuilder('postback label', 'post=back'),
                         new MessageTemplateActionBuilder('message label', 'test message'),

@@ -220,8 +220,8 @@ class TextMessageHandler implements EventHandler
                 // break;
                 $this->logger->info("create auction");
                 $buttonTemplateBuilder = new ButtonTemplateBuilder(
-                    'Choose your make',
-                    null,
+                    'button title',
+                    'button button',
                     null,
                     [
                         new PostbackTemplateActionBuilder('TOYOTA', 'make=toyota', 'toyota'),

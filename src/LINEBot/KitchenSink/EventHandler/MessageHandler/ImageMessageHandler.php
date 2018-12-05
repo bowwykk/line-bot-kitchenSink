@@ -121,7 +121,10 @@ class ImageMessageHandler implements EventHandler
             $this->logger->info("==fileFullSavePath== ". $fileFullSavePath);
             file_put_contents($fileFullSavePath,$dataBinary); // ทำการบันทึกไฟล์
             $textReplyMessage = "save success $fileNameSave";
-            $replyData = new TextMessageBuilder($textReplyMessage);
+            $this->logger->info("==textReplyMessage== ". $textReplyMessage);
+            $this->bot->replyMessage(
+                $this->imageMessage->getReplyToken(), $textReplyMessage
+            );
         }
     }
 }

@@ -38,11 +38,6 @@ class ImageMessageHandler implements EventHandler
     /** @var ImageMessage $imageMessage */
     private $imageMessage;
 
-    private $s3Bucket = "";
-    private $s3Key = "";
-    private $s3Secret = "";
-    private $s3Region = "";
-
     /**
      * ImageMessageHandler constructor.
      * @param LINEBot $bot
@@ -60,60 +55,69 @@ class ImageMessageHandler implements EventHandler
 
     public function handle()
     {
-        // Set Amazon S3 Credentials
-        $s3 = S3Client::factory(
-            array(
-                'credentials' => array(
-                    'key' => $this->s3Key,
-                    'secret' => $this->s3Secret
-                ),
-                'version' => 'latest',
-                'region'  => $this->s3Region
-            )
-        );
+        // $contentId = $this->imageMessage->getMessageId();
+        // $image = $this->bot->getMessageContent($contentId)->getRawBody();
+        // $this->logger->info("==image content===");
+        // // $this->logger->info($image);
+        // $tempFilePath = tempnam($_SERVER['DOCUMENT_ROOT'] . '/static/tmpdir', 'image-');
+        // $this->logger->info('==tempFilePath==');
+        // $this->logger->info($tempFilePath);
+        // unlink($tempFilePath);
+        // $filePath = $tempFilePath . '.jpg';
+        // $filename = basename($filePath);
 
+        // $fh = fopen($filePath, 'x');
+        // fwrite($fh, $image);
+        // fclose($fh);
+
+        // $testFile = fopen("testFile.txt", 'w');
+        // fwrite($testFile, "hello");
+        // fclose($testFile);
+
+        // $replyToken = $this->imageMessage->getReplyToken();
+
+        // $url = UrlBuilder::buildUrl($this->req, ['static', 'tmpdir', $filename]);
+        // $this->logger->info('==url==');
+        // $this->logger->info($url);
+        // $url = "/Users/bow/Code/line-bot-kitchenSink/public/static/buttons/1040.jpg";
+        // // NOTE: You should pass the url of small image to `previewImageUrl`.
+        // // This sample doesn't treat that.
+        // $this->bot->replyMessage($replyToken, new ImageMessageBuilder($url, $url));
+
+        $userId = $this->imageMessage->getUserId();
         $contentId = $this->imageMessage->getMessageId();
-        $image = $this->bot->getMessageContent($contentId)->getRawBody();
-        $this->logger->info("==image content===");
-        // $this->logger->info($image);
-        $tempFilePath = tempnam($_SERVER['DOCUMENT_ROOT'] . '/static/tmpdir', 'image-');
-        $this->logger->info('==tempFilePath==');
-        $this->logger->info($tempFilePath);
-        unlink($tempFilePath);
-        $filePath = $tempFilePath . '.jpg';
-        $filename = basename($filePath);
-
-        $fh = fopen($filePath, 'x');
-        fwrite($fh, $image);
-        fclose($fh);
-
-        $testFile = fopen("testFile.txt", 'w');
-        fwrite($testFile, "hello");
-        fclose($testFile);
-
-        try {
-            $s3->putObject(
-                array(
-                    'Bucket'=>$this->s3Bucket,
-                    'Key' =>  'line/lineImage',
-                    'SourceFile' => $tempFilePath,
-                    'StorageClass' => 'REDUCED_REDUNDANCY'
-                )
-            );
-            $this->logger->info('==url S#==');
-            $this->logger->info($s3['ObjectURL']);
-        } catch (S3Exception $e) {
-            $this->logger->info($e->getMessage());
+        $response = $bot->getMessageContent($contentId);
+        if ($response->isSucceeded()) {
+            // คำสั่ง getRawBody() ในกรณีนี้ จะได้ข้อมูลส่งกลับมาเป็น binary 
+            // เราสามารถเอาข้อมูลไปบันทึกเป็นไฟล์ได้
+            $dataBinary = $response->getRawBody(); // return binary
+            // ดึงข้อมูลประเภทของไฟล์ จาก header
+            $fileType = $response->getHeader('Content-Type');    
+            switch ($fileType){
+                case (preg_match('/^image/',$fileType) ? true : false):
+                    list($typeFile,$ext) = explode("/",$fileType);
+                    $ext = ($ext=='jpeg' || $ext=='jpg')?"jpg":$ext;
+                    $fileNameSave = time().".".$ext;
+                    break;
+                case (preg_match('/^audio/',$fileType) ? true : false):
+                    list($typeFile,$ext) = explode("/",$fileType);
+                    $fileNameSave = time().".".$ext;                        
+                    break;
+                case (preg_match('/^video/',$fileType) ? true : false):
+                    list($typeFile,$ext) = explode("/",$fileType);
+                    $fileNameSave = time().".".$ext;                                
+                    break;                                                      
+            }
+            $botDataFolder = 'botdata/'; // โฟลเดอร์หลักที่จะบันทึกไฟล์
+            $botDataUserFolder = $botDataFolder.$userID; // มีโฟลเดอร์ด้านในเป็น userId อีกขั้น
+            if(!file_exists($botDataUserFolder)) { // ตรวจสอบถ้ายังไม่มีให้สร้างโฟลเดอร์ userId
+                mkdir($botDataUserFolder, 0777, true);
+            }   
+            // กำหนด path ของไฟล์ที่จะบันทึก
+            $fileFullSavePath = $botDataUserFolder.'/'.$fileNameSave;
+            file_put_contents($fileFullSavePath,$dataBinary); // ทำการบันทึกไฟล์
+            $textReplyMessage = "save success $fileNameSave";
+            $replyData = new TextMessageBuilder($textReplyMessage);
         }
-
-        $replyToken = $this->imageMessage->getReplyToken();
-
-        $url = UrlBuilder::buildUrl($this->req, ['static', 'tmpdir', $filename]);
-        $this->logger->info('==url==');
-        $this->logger->info($url);
-        $url = "/Users/bow/Code/line-bot-kitchenSink/public/static/buttons/1040.jpg";
-        // NOTE: You should pass the url of small image to `previewImageUrl`.
-        // This sample doesn't treat that.
-        $this->bot->replyMessage($replyToken, new ImageMessageBuilder($url, $url));
     }
 }

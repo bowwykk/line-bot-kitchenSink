@@ -86,7 +86,7 @@ class ImageMessageHandler implements EventHandler
 
         $userId = $this->imageMessage->getUserId();
         $contentId = $this->imageMessage->getMessageId();
-        $response = $bot->getMessageContent($contentId);
+        $response = $this->bot->getMessageContent($contentId);
         if ($response->isSucceeded()) {
             $this->logger->info("==isSucceeded==");
             // คำสั่ง getRawBody() ในกรณีนี้ จะได้ข้อมูลส่งกลับมาเป็น binary 

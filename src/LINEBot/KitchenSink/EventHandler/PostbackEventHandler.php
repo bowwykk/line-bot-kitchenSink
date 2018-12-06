@@ -66,6 +66,7 @@ class PostbackEventHandler implements EventHandler
                     $this->postbackEvent->getReplyToken(),
                     "Your name: " . $profile['displayName'],
                     "Got postback: " . $this->postbackEvent->getPostbackData(),
+                    "Save your data!!",
                     "Please send car's image"
                 );
                 break;

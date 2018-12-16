@@ -62,12 +62,16 @@ class Route
             $logger = $this->logger;
 
             $signature = $req->getHeader(HTTPHeader::LINE_SIGNATURE);
+            $logger->info('SIGNATURE');
+            $logger->info($signature);
             if (empty($signature)) {
                 $logger->info('Signature is missing');
                 return $res->withStatus(400, 'Bad Request');
             }
 
             try {
+                $logger->info('GETBODY');
+                $logger->info($req->getBody());
                 $events = $bot->parseEventRequest($req->getBody(), $signature[0]);
             } catch (InvalidSignatureException $e) {
                 $logger->info('Invalid signature');
